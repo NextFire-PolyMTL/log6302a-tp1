@@ -9,8 +9,10 @@ class GraphException(Exception):
 class ASTException(Exception):
     pass
 
+
 class ASTDynamicException(Exception):
     pass
+
 
 class CFGException(Exception):
     pass

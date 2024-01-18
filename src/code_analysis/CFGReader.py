@@ -2,18 +2,18 @@
 
 import json
 import sys
+
 from code_analysis import CFG
 from code_analysis.GraphException import ASTException
 
 
 class CFGReader:
-
     def __init__(self):
         self.cfg = None
 
     def read_cfg(self, filename: str) -> CFG:
         self.cfg = CFG()
-        with open(filename, 'r', encoding='UTF-8') as file:
+        with open(filename, "r", encoding="UTF-8") as file:
             while line := file.readline().rstrip():
                 if line == "[" or line == "]":
                     continue
@@ -35,7 +35,14 @@ class CFGReader:
                     self.__readline_cfg_succ(array)
                 elif array[0] in ["token", "image"]:
                     self.__readline_image(array)
-                elif array[0] in ["line_begin", "line_end", "column_begin", "column_end", "token_begin", "token_end"]:
+                elif array[0] in [
+                    "line_begin",
+                    "line_end",
+                    "column_begin",
+                    "column_end",
+                    "token_begin",
+                    "token_end",
+                ]:
                     self.__readline_position(array)
                 elif array[0] == "call_end":
                     self.__readline_call_end(array)
@@ -128,7 +135,9 @@ class CFGReader:
         elif array[0] == "token_end":
             pos[5] = array[2]
         else:
-            raise ASTException(f"'{array[0]}' use unknown positional arguments key - {array}")
+            raise ASTException(
+                f"'{array[0]}' use unknown positional arguments key - {array}"
+            )
         self.cfg.set_position(array[1], pos)
 
     def __readline_ast_pt(self, array):
@@ -155,7 +164,11 @@ class CFGReader:
     def __readline_op_hands(self, array):
         if len(array) != 4:
             raise ASTException(f"'op_hands' should have 3 parameters - {array}")
-        if type(array[1]) is not int or type(array[2]) is not int or (array[3] is not None and type(array[3]) is not int):
+        if (
+            type(array[1]) is not int
+            or type(array[2]) is not int
+            or (array[3] is not None and type(array[3]) is not int)
+        ):
             raise ASTException(f"'op_hands' have wrong arguments type - {array}")
         self.cfg.set_op_hands(array[1], array[2], array[3])
 
@@ -169,7 +182,11 @@ class CFGReader:
     def __readline_func_call_arg(self, array):
         if len(array) != 4:
             raise ASTException(f"'func_call_arg' should have 3 parameters - {array}")
-        if type(array[1]) is not int or type(array[2]) is not int or type(array[3]) is not int:
+        if (
+            type(array[1]) is not int
+            or type(array[2]) is not int
+            or type(array[3]) is not int
+        ):
             raise ASTException(f"'func_call_arg' have wrong arguments type - {array}")
         if len(self.cfg.get_call_args(array[1])) != array[2]:
             raise ASTException(f"'func_call_arg' wrong arguments index id - {array}")
@@ -178,7 +195,11 @@ class CFGReader:
     def __readline_func_def_param(self, array):
         if len(array) != 4:
             raise ASTException(f"'func_def_param' should have 3 parameters - {array}")
-        if type(array[1]) is not int or type(array[2]) is not int or type(array[3]) is not int:
+        if (
+            type(array[1]) is not int
+            or type(array[2]) is not int
+            or type(array[3]) is not int
+        ):
             raise ASTException(f"'func_def_param' have wrong arguments type - {array}")
         if len(self.cfg.get_def_params(array[1])) != array[2]:
             raise ASTException(f"'func_def_param' wrong arguments index id - {array}")

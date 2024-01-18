@@ -2,18 +2,18 @@
 
 import json
 import sys
+
 from code_analysis import AST
 from code_analysis.GraphException import ASTException
 
 
 class ASTReader:
-
     def __init__(self):
         self.ast = None
 
     def read_ast(self, filename: str) -> AST:
         self.ast = AST()
-        with open(filename, 'r', encoding='UTF-8') as file:
+        with open(filename, "r", encoding="UTF-8") as file:
             while line := file.readline().rstrip():
                 if line == "[" or line == "]":
                     continue
@@ -35,7 +35,14 @@ class ASTReader:
                     self.__readline_ast_succ(array)
                 elif array[0] in ["token", "image"]:
                     self.__readline_image(array)
-                elif array[0] in ["line_begin", "line_end", "column_begin", "column_end", "token_begin", "token_end"]:
+                elif array[0] in [
+                    "line_begin",
+                    "line_end",
+                    "column_begin",
+                    "column_end",
+                    "token_begin",
+                    "token_end",
+                ]:
                     self.__readline_position(array)
                 elif array[0] in ["parsetree_pt", "scope_id"]:
                     pass
@@ -114,5 +121,7 @@ class ASTReader:
         elif array[0] == "token_end":
             pos[5] = array[2]
         else:
-            raise ASTException(f"'{array[0]}' use unknown positional arguments key - {array}")
+            raise ASTException(
+                f"'{array[0]}' use unknown positional arguments key - {array}"
+            )
         self.ast.set_position(array[1], pos)

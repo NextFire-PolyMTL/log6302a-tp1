@@ -1,8 +1,9 @@
 #!/usr/bin/env python
-import numpy
+
+import numpy as np
 
 from code_analysis import Graph
-import numpy as np
+
 
 class AST(Graph):
     def vectorize(self, node=None) -> np.ndarray:
@@ -147,5 +148,5 @@ class AST(Graph):
             "Variable",
             "VariableExpression",
             "VariableStatement",
-            "While"
+            "While",
         ]

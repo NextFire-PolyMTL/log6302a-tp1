@@ -1,10 +1,13 @@
 # __init__.py
+# ruff: noqa: F401, I001
 
-__title__ = 'code_analysis'
-__version__ = '0.6'
-__author__ = 'Julien Cassagne <julien.e.cassagne@gmail.com>'
-__copyright__ = 'Copyright (c) 2022, all rights reserved. Copying content is expressly prohibited without prior ' \
-                'written permission of the University or the authors. '
+__title__ = "code_analysis"
+__version__ = "0.6"
+__author__ = "Julien Cassagne <julien.e.cassagne@gmail.com>"
+__copyright__ = (
+    "Copyright (c) 2022, all rights reserved. Copying content is expressly prohibited without prior "
+    "written permission of the University or the authors. "
+)
 
 from .Graph import Graph
 from .AST import AST

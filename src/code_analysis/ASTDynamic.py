@@ -1,8 +1,10 @@
 """ Define a ASTDynamic as a Tree with additional edge types and node information """
 
+import numpy as np
+
 from code_analysis import AST
 from code_analysis.GraphException import ASTDynamicException
-import numpy as np
+
 
 class ASTDynamic(AST):
     def __init__(self):
@@ -56,16 +58,15 @@ class ASTDynamic(AST):
 
         super(ASTDynamic, self).delete_node(node_id)
 
-
     def add_dynres_edge(self, parent_node: int, child_node: int):
         if parent_node is None or child_node is None:
-            raise ASTDynamicException(f"Undefined dynres edge.")
+            raise ASTDynamicException("Undefined dynres edge.")
         self.add_edge_table(child_node, parent_node, self.__dynresSuccTable)
         self.add_edge_table(parent_node, child_node, self.__dynresPredTable)
 
     def remove_dynres_edge(self, parent_node: int, child_node: int):
         if parent_node is None or child_node is None:
-            raise ASTDynamicException(f"Undefined dynres edge.")
+            raise ASTDynamicException("Undefined dynres edge.")
         if parent_node not in self.__dynresSuccTable.keys():
             return
         if child_node not in self.__dynresPredTable.keys():
@@ -76,13 +77,13 @@ class ASTDynamic(AST):
 
     def add_datares_edge(self, parent_node: int, child_node: int):
         if parent_node is None or child_node is None:
-            raise ASTDynamicException(f"Undefined datares edge.")
+            raise ASTDynamicException("Undefined datares edge.")
         self.add_edge_table(child_node, parent_node, self.__dataresSuccTable)
         self.add_edge_table(parent_node, child_node, self.__dataresPredTable)
 
     def remove_datares_edge(self, parent_node: int, child_node: int):
         if parent_node is None or child_node is None:
-            raise ASTDynamicException(f"Undefined datares edge.")
+            raise ASTDynamicException("Undefined datares edge.")
         if parent_node not in self.__dataresSuccTable.keys():
             return
         if child_node not in self.__dataresPredTable.keys():
@@ -93,13 +94,13 @@ class ASTDynamic(AST):
 
     def add_parse_edge(self, parent_node: int, child_node: int):
         if parent_node is None or child_node is None:
-            raise ASTDynamicException(f"Undefined parse edge.")
+            raise ASTDynamicException("Undefined parse edge.")
         self.add_edge_table(child_node, parent_node, self.__parseSuccTable)
         self.add_edge_table(parent_node, child_node, self.__parsePredTable)
 
     def remove_parse_edge(self, parent_node: int, child_node: int):
         if parent_node is None or child_node is None:
-            raise ASTDynamicException(f"Undefined parse edge.")
+            raise ASTDynamicException("Undefined parse edge.")
         if parent_node not in self.__parseSuccTable.keys():
             return
         if child_node not in self.__parsePredTable.keys():
@@ -107,7 +108,6 @@ class ASTDynamic(AST):
 
         self.__parseSuccTable[parent_node].remove(child_node)
         self.__parsePredTable[child_node].remove(parent_node)
-
 
     def get_dynres_children(self, node_id: int) -> list:
         if node_id in self.__dynresSuccTable:
@@ -198,8 +198,8 @@ class ASTDynamic(AST):
             image = self.get_image(key)
             if image is not None:
                 if len(image) >= 40:
-                    image = image[:40 - 3] + "..."
-                image = image.replace("\"", "'")
+                    image = image[: 40 - 3] + "..."
+                image = image.replace('"', "'")
                 image = image.replace("\\", "")
                 image = image.replace("/", "")
                 image = image.replace("&", "&amp;")

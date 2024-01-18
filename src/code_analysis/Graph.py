@@ -1,8 +1,10 @@
 #!/usr/bin/env python
 """ Define a Graph with nodes, edges, root and extra node related information """
-from code_analysis.GraphException import GraphException
-from graphviz import Source
 import json
+
+from graphviz import Source
+
+from code_analysis.GraphException import GraphException
 
 
 class Graph:
@@ -74,13 +76,13 @@ class Graph:
 
     def add_edge(self, parent_node: int, child_node: int):
         if parent_node is None or child_node is None:
-            raise GraphException(f"Undefined edge.")
+            raise GraphException("Undefined edge.")
         self.add_edge_table(child_node, parent_node, self.__succTable)
         self.add_edge_table(parent_node, child_node, self.__predTable)
 
     def remove_edge(self, parent_node: int, child_node: int):
         if parent_node is None or child_node is None:
-            raise GraphException(f"Undefined edge.")
+            raise GraphException("Undefined edge.")
         if parent_node not in self.__succTable.keys():
             return
         if child_node not in self.__predTable.keys():
@@ -145,24 +147,52 @@ class Graph:
             if self.get_var_id(key) is not None:
                 out += "  " + json.dumps(["var_id", key, self.get_var_id(key)]) + ",\n"
             if self.get_var_scope(key) is not None:
-                out += "  " + json.dumps(["var_scope", key, self.get_var_scope(key)]) + ",\n"
+                out += (
+                    "  "
+                    + json.dumps(["var_scope", key, self.get_var_scope(key)])
+                    + ",\n"
+                )
             if self.get_position(key) is not None:
                 if self.get_position(key)[0] is not None:
-                    out += "  " + json.dumps(["line_begin", key, self.get_position(key)[0]]) + ",\n"
+                    out += (
+                        "  "
+                        + json.dumps(["line_begin", key, self.get_position(key)[0]])
+                        + ",\n"
+                    )
                 if self.get_position(key)[1] is not None:
-                    out += "  " + json.dumps(["line_end", key, self.get_position(key)[1]]) + ",\n"
+                    out += (
+                        "  "
+                        + json.dumps(["line_end", key, self.get_position(key)[1]])
+                        + ",\n"
+                    )
                 if self.get_position(key)[2] is not None:
-                    out += "  " + json.dumps(["column_begin", key, self.get_position(key)[2]]) + ",\n"
+                    out += (
+                        "  "
+                        + json.dumps(["column_begin", key, self.get_position(key)[2]])
+                        + ",\n"
+                    )
                 if self.get_position(key)[3] is not None:
-                    out += "  " + json.dumps(["column_end", key, self.get_position(key)[3]]) + ",\n"
+                    out += (
+                        "  "
+                        + json.dumps(["column_end", key, self.get_position(key)[3]])
+                        + ",\n"
+                    )
                 if self.get_position(key)[4] is not None:
-                    out += "  " + json.dumps(["token_begin", key, self.get_position(key)[4]]) + ",\n"
+                    out += (
+                        "  "
+                        + json.dumps(["token_begin", key, self.get_position(key)[4]])
+                        + ",\n"
+                    )
                 if self.get_position(key)[5] is not None:
-                    out += "  " + json.dumps(["token_end", key, self.get_position(key)[5]]) + ",\n"
+                    out += (
+                        "  "
+                        + json.dumps(["token_end", key, self.get_position(key)[5]])
+                        + ",\n"
+                    )
             for child in self.get_children(key):
                 out += "  " + json.dumps(["ast_succ", key, child]) + ",\n"
 
-        out = out[:len(out) - 2]  # remove last comma
+        out = out[: len(out) - 2]  # remove last comma
         out += "\n]"
         return out
 
@@ -177,8 +207,8 @@ class Graph:
             image = self.get_image(key)
             if image is not None:
                 if len(image) >= 40:
-                    image = image[:40 - 3] + "..."
-                image = image.replace("\"", "'")
+                    image = image[: 40 - 3] + "..."
+                image = image.replace('"', "'")
                 image = image.replace("\\", "")
                 image = image.replace("/", "")
                 image = image.replace("&", "&amp;")
@@ -188,7 +218,9 @@ class Graph:
                 image = image.replace("\n", " ")
 
             cell_style = "border='0'"
-            table = "<TABLE border='1' cellspacing='0' cellpadding='10' style='rounded'>"
+            table = (
+                "<TABLE border='1' cellspacing='0' cellpadding='10' style='rounded'>"
+            )
             table += f"<TR><TD {cell_style}>{key}</TD>"
             table += f"<TD {cell_style}><B>{self.get_type(key)}</B></TD></TR>"
             if image is not None:

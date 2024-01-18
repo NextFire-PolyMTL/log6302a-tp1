@@ -1,8 +1,10 @@
 """ Define a CFG as a Graph with additional edge types and node information """
 
+import json
+
 from code_analysis import Graph
 from code_analysis.GraphException import CFGException
-import json
+
 
 class CFG(Graph):
     def __init__(self):
@@ -68,7 +70,7 @@ class CFG(Graph):
     def get_func_entry_nodes(self) -> list:
         return list(self.__funcEntryNode.keys())
 
-    #def get_func_entry_node(self, func_name: str) -> int | None:
+    # def get_func_entry_node(self, func_name: str) -> int | None:
     def get_func_entry_node(self, func_name: str):
         for key in self.__funcEntryNode.keys():
             if self.__funcEntryNode.get(key) == func_name:
@@ -104,7 +106,9 @@ class CFG(Graph):
     def add_call_arg(self, id_call: int, id_arg: int):
         if id_call in self.__callArgs.keys():
             if id_arg in self.__callArgs[id_call]:
-                raise CFGException(f"Duplicate func call argument ' : {id_call} - {id_arg}")
+                raise CFGException(
+                    f"Duplicate func call argument ' : {id_call} - {id_arg}"
+                )
         else:
             self.__callArgs[id_call] = []
         self.__callArgs[id_call].append(id_arg)
@@ -112,7 +116,9 @@ class CFG(Graph):
     def add_def_params(self, id_def: int, id_param: int):
         if id_def in self.__defParams.keys():
             if id_param in self.__defParams[id_def]:
-                raise CFGException(f"Duplicate def params argument ' : {id_def} - {id_param}")
+                raise CFGException(
+                    f"Duplicate def params argument ' : {id_def} - {id_param}"
+                )
         else:
             self.__defParams[id_def] = []
         self.__defParams[id_def].append(id_param)
@@ -129,34 +135,88 @@ class CFG(Graph):
             if self.get_var_id(key) is not None:
                 out += "  " + json.dumps(["var_id", key, self.get_var_id(key)]) + ",\n"
             if self.get_var_scope(key) is not None:
-                out += "  " + json.dumps(["var_scope", key, self.get_var_scope(key)]) + ",\n"
+                out += (
+                    "  "
+                    + json.dumps(["var_scope", key, self.get_var_scope(key)])
+                    + ",\n"
+                )
             if self.get_call_end(key) is not None:
-                out += "  " + json.dumps(["call_end", key, self.get_call_end(key)]) + ",\n"
+                out += (
+                    "  " + json.dumps(["call_end", key, self.get_call_end(key)]) + ",\n"
+                )
             if self.get_call_expr(key) is not None:
-                out += "  " + json.dumps(["call_expr", key, self.get_call_expr(key)]) + ",\n"
+                out += (
+                    "  "
+                    + json.dumps(["call_expr", key, self.get_call_expr(key)])
+                    + ",\n"
+                )
             if self.get_node_ast_ptr(key) is not None:
-                out += "  " + json.dumps(["ast_pt", key, self.get_node_ast_ptr(key)]) + ",\n"
+                out += (
+                    "  "
+                    + json.dumps(["ast_pt", key, self.get_node_ast_ptr(key)])
+                    + ",\n"
+                )
             if self.get_op_hands(key) is not None:
-                out += "  " + json.dumps(
-                    ["op_hands", key, self.get_op_hands(key)[0], self.get_op_hands(key)[1]]) + ",\n"
+                out += (
+                    "  "
+                    + json.dumps(
+                        [
+                            "op_hands",
+                            key,
+                            self.get_op_hands(key)[0],
+                            self.get_op_hands(key)[1],
+                        ]
+                    )
+                    + ",\n"
+                )
             if self.get_entry_func_name(key) is not None:
-                out += "  " + json.dumps(["entry_func_name", key, self.get_entry_func_name(key)]) + ",\n"
+                out += (
+                    "  "
+                    + json.dumps(
+                        ["entry_func_name", key, self.get_entry_func_name(key)]
+                    )
+                    + ",\n"
+                )
             if self.get_position(key) is not None:
                 if self.get_position(key)[0] is not None:
-                    out += "  " + json.dumps(["line_begin", key, self.get_position(key)[0]]) + ",\n"
+                    out += (
+                        "  "
+                        + json.dumps(["line_begin", key, self.get_position(key)[0]])
+                        + ",\n"
+                    )
                 if self.get_position(key)[1] is not None:
-                    out += "  " + json.dumps(["line_end", key, self.get_position(key)[1]]) + ",\n"
+                    out += (
+                        "  "
+                        + json.dumps(["line_end", key, self.get_position(key)[1]])
+                        + ",\n"
+                    )
                 if self.get_position(key)[2] is not None:
-                    out += "  " + json.dumps(["column_begin", key, self.get_position(key)[2]]) + ",\n"
+                    out += (
+                        "  "
+                        + json.dumps(["column_begin", key, self.get_position(key)[2]])
+                        + ",\n"
+                    )
                 if self.get_position(key)[3] is not None:
-                    out += "  " + json.dumps(["column_end", key, self.get_position(key)[3]]) + ",\n"
+                    out += (
+                        "  "
+                        + json.dumps(["column_end", key, self.get_position(key)[3]])
+                        + ",\n"
+                    )
                 if self.get_position(key)[4] is not None:
-                    out += "  " + json.dumps(["token_begin", key, self.get_position(key)[4]]) + ",\n"
+                    out += (
+                        "  "
+                        + json.dumps(["token_begin", key, self.get_position(key)[4]])
+                        + ",\n"
+                    )
                 if self.get_position(key)[5] is not None:
-                    out += "  " + json.dumps(["token_end", key, self.get_position(key)[5]]) + ",\n"
+                    out += (
+                        "  "
+                        + json.dumps(["token_end", key, self.get_position(key)[5]])
+                        + ",\n"
+                    )
             for child in self.get_children(key):
                 out += "  " + json.dumps(["cfg_succ", key, child]) + ",\n"
-        out = out[:len(out) - 2]  # remove last comma
+        out = out[: len(out) - 2]  # remove last comma
         out += "\n]"
         return out
 
@@ -171,8 +231,8 @@ class CFG(Graph):
             image = self.get_image(key)
             if image is not None:
                 if len(image) >= 40:
-                    image = image[:40 - 3] + "..."
-                image = image.replace("\"", "'")
+                    image = image[: 40 - 3] + "..."
+                image = image.replace('"', "'")
                 image = image.replace("\\", "")
                 image = image.replace("/", "")
                 image = image.replace("&", "&amp;")

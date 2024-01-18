@@ -12,7 +12,7 @@ ast_2 = reader.read_ast("../example/example_2.php.ast.json")
 
 # Access AST information
 
-'''
+"""
 ast.get_root()       # Return the root node ID
 ast.get_type(45)     # Return the type of node 45
 ast.get_image(45)    # Return the image of node 45
@@ -20,7 +20,7 @@ ast.get_children(45) # Return the list of children
 ast.get_parent(45)   # Return the list of parents
 ast.get_position(45) # Return the position in source file as an
                      # array [line_begin, line_end, column_begin, column_end, token_begin, token_end]
-'''
+"""
 
 root = ast.get_root()
 print(f"Root node ID is {root}")
@@ -46,8 +46,10 @@ class ASTFunctionDefinitionVisitor:
 
     def __visit(self, node_id: int):
         if self.ast.get_type(node_id) == "FunctionStatement":
-            print(f"Function '{self.ast.get_image(node_id)}' definition is from "
-                  f"line {self.ast.get_position(node_id)[0]} to {self.ast.get_position(node_id)[1]}")
+            print(
+                f"Function '{self.ast.get_image(node_id)}' definition is from "
+                f"line {self.ast.get_position(node_id)[0]} to {self.ast.get_position(node_id)[1]}"
+            )
 
         for child_id in self.ast.get_children(node_id):
             self.__visit(child_id)
@@ -61,6 +63,7 @@ print("\n")
 
 # Create a visitor that returns function call position in source file
 
+
 class ASTFunctionCallVisitor:
     def __init__(self):
         self.ast = None
@@ -72,8 +75,10 @@ class ASTFunctionCallVisitor:
 
     def __visit(self, node_id: int):
         if self.ast.get_type(node_id) == "FunctionCall":
-            print(f"Function '{self.ast.get_image(node_id)}' is called "
-                  f"at line {self.ast.get_position(node_id)[0]}")
+            print(
+                f"Function '{self.ast.get_image(node_id)}' is called "
+                f"at line {self.ast.get_position(node_id)[0]}"
+            )
 
         for child_id in self.ast.get_children(node_id):
             self.__visit(child_id)

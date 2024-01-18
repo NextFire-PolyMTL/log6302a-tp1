@@ -2,18 +2,18 @@
 
 import json
 import sys
+
 from code_analysis import ASTDynamic
 from code_analysis.GraphException import ASTException
 
 
 class ASTDynamicReader:
-
     def __init__(self):
         self.astdyn = None
 
     def read_astdyn(self, filename: str) -> ASTDynamic:
         self.astdyn = ASTDynamic()
-        with open(filename, 'r', encoding='UTF-8') as file:
+        with open(filename, "r", encoding="UTF-8") as file:
             while line := file.readline().rstrip():
                 if line == "[" or line == "]":
                     continue
@@ -35,7 +35,14 @@ class ASTDynamicReader:
                     self.__readline_ast_succ(array)
                 elif array[0] in ["token", "image"]:
                     self.__readline_image(array)
-                elif array[0] in ["line_begin", "line_end", "column_begin", "column_end", "token_begin", "token_end"]:
+                elif array[0] in [
+                    "line_begin",
+                    "line_end",
+                    "column_begin",
+                    "column_end",
+                    "token_begin",
+                    "token_end",
+                ]:
                     self.__readline_position(array)
                 elif array[0] == "dynres_succ":
                     self.__readline_dynres_succ(array)
@@ -122,7 +129,9 @@ class ASTDynamicReader:
         elif array[0] == "token_end":
             pos[5] = array[2]
         else:
-            raise ASTException(f"'{array[0]}' use unknown positional arguments key - {array}")
+            raise ASTException(
+                f"'{array[0]}' use unknown positional arguments key - {array}"
+            )
         self.astdyn.set_position(array[1], pos)
 
     def __readline_ast_pt(self, array):

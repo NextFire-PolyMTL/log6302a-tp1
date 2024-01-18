@@ -9,7 +9,7 @@ fragmentTypes = [
     "AbstractPublicMethodStatement",
     "AbstractProtectedMethodStatement",
     "AbstractPrivateMethodStatement",
-    "ClosureExpression"
+    "ClosureExpression",
 ]
 
 
@@ -23,7 +23,9 @@ class ASTFragmentation:
         return self.__fragments
 
     def __fragment(self, ast: AST, node: int):
-        if ast.get_type(node) in fragmentTypes:  # New fragment found: add to the list and remove edge with parent
+        if (
+            ast.get_type(node) in fragmentTypes
+        ):  # New fragment found: add to the list and remove edge with parent
             self.__fragments.append(node)
             parents = ast.get_parents(node).copy()
             for p in parents:
