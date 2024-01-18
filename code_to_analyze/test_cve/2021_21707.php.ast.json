@@ -1,6 +1,6 @@
 [
   ["node_root",29],
-  ["filename","code.php"],
+  ["filename","./test_cve/2021_21707.php"],
   ["type",1,"Id"],
   ["image",1,"session_start"],
   ["parsetree_pt",1,4],
